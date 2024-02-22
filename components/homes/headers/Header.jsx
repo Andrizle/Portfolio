@@ -33,7 +33,7 @@ export default function Header() {
     const currentState = localStorage?.getItem("idDarkMode");
 
     if (JSON.parse(currentState) == true) {
-      localStorage.setItem("idDarkMode", false);
+      localStorage.setItem("idDarkMode", true);
       document.body.classList.remove("dark-theme");
 
       addlightBg();

@@ -9,7 +9,7 @@ export const portfolioData = [
     target: "#portfolio-1",
     category: ["Mockup"],
     project: "website",
-    previewLink: "dissscord.onrender.com",
+    previewLink: "https://dissscord.onrender.com",
   },
   {
     id: 3,
