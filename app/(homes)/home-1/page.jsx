@@ -20,7 +20,7 @@ export default function Home1() {
           <div className="row">
             <PersonalInfo />
             <AboutOne />
-            <MenuTwo />
+            {/* <MenuTwo /> */}
           </div>
         </div>
       </div>

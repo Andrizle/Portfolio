@@ -19,7 +19,7 @@ export default function PersonalInfo() {
           </div>
 
           <h4 className="bostami-parsonal-info-name">
-            <a href="#">{profileInfo.name}</a>
+            <span>{profileInfo.name}</span>
           </h4>
           <span className="bostami-parsonal-info-bio mb-15">{profileInfo.title}</span>
 
@@ -55,7 +55,7 @@ export default function PersonalInfo() {
               <span style={{ color: "#fff" }} className="icon">
                 <i className="fa-regular fa-download"></i>
               </span>
-              download cv
+              download resume
             </a>
           </div>
         </div>

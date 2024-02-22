@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Header() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
   const addDarkbg = () => {
     if (
       document.body.style.backgroundImage !=

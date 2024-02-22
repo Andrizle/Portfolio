@@ -2,18 +2,35 @@
 
 import React, { useEffect, useState } from "react";
 import { clientLogos } from "@/data/clientLogos";
-
+import { AnimatePresence } from "framer-motion";
+import { filterButtons, portfolioData } from "@/data/portfolioData";
+import { motion } from "framer-motion";
 import { Navigation, Pagination, Autoplay } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { items } from "@/data/jobFeatures";
 import { bioData } from "@/data/bioData";
 import Image from "next/image";
+import Modal from "../blogs/Modal";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export default function AboutOne() {
+  const [filteredItem, setFilteredItem] = useState([]);
+  const [modalContent, setModalContent] = useState();
   const [showSlider, setShowSlider] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [activeTab, setActiveTab] = useState("Mockup");
   useEffect(() => {
     setShowSlider(true);
   }, []);
+  useEffect(() => {
+    if (activeTab == "All") {
+      setFilteredItem(portfolioData);
+    } else {
+      const filtered = portfolioData.filter((elm) =>
+        elm.category.includes(activeTab)
+      );
+      setFilteredItem(filtered);
+    }
+  }, [activeTab]);
   return (
     <div className="col-xxl-8 col-xl-9">
       <div className="bostami-page-content-wrap">
@@ -22,42 +39,89 @@ export default function AboutOne() {
             <h2 className="page-title">about</h2>
             <p>{bioData.descOne}</p>
             <p>{bioData.descTwo}</p>
+            <p>{bioData.descThree}</p>
           </div>
         </div>
 
-        <div className="section-wrapper pl-60 pr-60">
-          <div className="bostami-section-title-wrap mb-30">
-            <h3 className="section-title">What I do!</h3>
+        <div className="section-wrapper pl-60 pr-60 pt-60">
+          <div className="bostami-page-title-wrap mb-15">
+            <h2 className="page-title">Portfolio</h2>
           </div>
+        </div>
 
-          <div className="bostami-what-do-wrap mb-30">
+        <div className="section-wrapper pr-60 pl-60 mb-60">
             <div className="row">
-              {items.slice(0, 4).map((elm, i) => (
-                <div key={i} className="col-xxl-6 col-xl-6 col-lg-6">
-                  <div className={`bostami-what-do-item ${elm.bg} `}>
-                    <div className="icon" style={{ margin: "0 auto" }}>
-                      <Image
-                        height={40}
-                        width={130}
-                        style={{ margin: "0 auto" }}
-                        src={elm.icon}
-                        alt="feature"
-                      />
-                    </div>
-                    <div className="text">
-                      <h4 className="title">{elm.title}</h4>
-                      <p>{elm.description}</p>
-                    </div>
-                  </div>
+              <div className="col-12">
+                <div id="fillter-item-active" className="fillter-item-wrap ">
+                  <AnimatePresence>
+                    <ResponsiveMasonry
+                      columnsCountBreakPoints={{
+                        350: 1,
+                        850: 2,
+                        1100: 3,
+                        1200: 2,
+                      }}
+                    >
+                      <Masonry>
+                        {filteredItem.map((elm, i) => (
+                          <motion.div
+                            layout
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5 }}
+                            transition={{ duration: 0.3 }}
+                            key={elm.id}
+                            className={elm.class}
+                            style={{ width: "100%" }}
+                          >
+                            <a
+                              href={elm.previewLink}
+                              target="_blank"
+                              style={{ width: "100%" }}
+                              className={`fillter-item cursor-pointer ${elm.bgClass}`}
+                            >
+                              <div className="img cursor-pointer">
+                                <Image
+                                  width={310}
+                                  height={310}
+                                  style={{
+                                    width: "100%",
+                                    height: "fit-content",
+                                  }}
+                                  src={elm.imgSrc}
+                                  onClick={() => {
+                                    setModalContent(elm);
+                                    setShowModal(true);
+                                  }}
+                                  alt="portfolio"
+                                />
+                              </div>
+                              <span className="item-subtitle">
+                                {elm.subtitle}
+                              </span>
+                              <h6
+                                className="item-title"
+                                onClick={() => {
+                                  setModalContent(elm);
+                                  setShowModal(true);
+                                }}
+                              >
+                                <a className="cursor-pointer">{elm.title}</a>
+                              </h6>
+                            </a>
+                          </motion.div>
+                        ))}
+                      </Masonry>
+                    </ResponsiveMasonry>
+                  </AnimatePresence>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
-        </div>
 
         <div className="section-wrapper bg-light-white-2 pt-45 pb-60 pl-60 pr-60">
           <div className="bostami-section-title-wrap text-center mb-50">
-            <h3 className="section-title">clinet</h3>
+            <h3 className="section-title">Tools</h3>
           </div>
 
           <div className="bostami-client-slider">
@@ -92,27 +156,17 @@ export default function AboutOne() {
                   {clientLogos.map((elm, i) => (
                     <SwiperSlide key={i}>
                       <div className="swiper-slide">
-                        <Image
-                          height={62}
-                          width={264}
-                          style={{ height:'62px',width:'fit-content'}}
-                          className="bostami-client-slider-logo"
-                          src={elm.imgSrc}
-                          alt="client"
-                        />
+                        {elm}
                       </div>
                     </SwiperSlide>
                   ))}
+
                 </Swiper>
               )}
             </div>
           </div>
         </div>
-
         <div className="footer-copyright text-center pt-25 pb-25">
-          <span>
-            © {new Date().getFullYear()} All Rights Reserved by elite-themes24.
-          </span>
         </div>
       </div>
     </div>
