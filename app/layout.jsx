@@ -12,9 +12,11 @@ export default function RootLayout({ children }) {
       <head>
       {/* <!-- Google tag (gtag.js) --> */}
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-N06MTL2GX1"></script>
-      <script>
+      <script type='text/javascript'>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments)}
+        function gtag() &lbrace;
+          dataLayer.push(arguments);
+        &rbrace;
         gtag('js', new Date());
 
         gtag('config', 'G-N06MTL2GX1');
